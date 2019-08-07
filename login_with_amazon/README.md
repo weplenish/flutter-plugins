@@ -11,7 +11,7 @@ The api key must be changed on a per platform basis in accordance with the follo
 
 ### Methods
 
-- LoginWithAmazon
-  - Future<Map> login(Map<String, dynamic> scopes)
-  - Future<void> logout()
-  - Future<String> getAccessToken(Map<String, dynamic> scopes)
+- `LoginWithAmazon`
+  - `Future<Map> login(Map<String, dynamic> scopes)`
+  - `Future<void> logout()`
+  - `Future<String> getAccessToken(Map<String, dynamic> scopes)`
