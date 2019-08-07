@@ -12,13 +12,13 @@ class MyApp extends StatefulWidget {
 const _scopes = {
   'profile': null,
   'alexa:all': {
-    'productID': 'JAVA',
+    'productID': 'SomeProductId',
     'productInstanceAttributes': {
       'deviceSerialNumber': 'serialNumberHere',
     },
   },
   'dash:replenish': {
-    'device_model': 'WP230B-A',
+    'device_model': 'SomeDeviceModel',
     'serial': 'serialNumberHere',
     'is_test_device': true
   },
