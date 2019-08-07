@@ -1,6 +1,6 @@
 # login_with_amazon
 
-A flutter plugin to use Amazon's native platform implementations of [Login With Amazon](https://developer.amazon.com/docs/login-with-amazon/minitoc-lwa-overview.html).
+A flutter plugin to use Amazon's native platform implementations of [Login With Amazon](https://developer.amazon.com/docs/login-with-amazon/minitoc-lwa-overview.html). Like the Amazon platform packages it will only ask to authorize if already logged in on the device (single sign on). Alternatively it will ask to login.
 
 ## Getting Started
 
@@ -52,6 +52,19 @@ The api key must be changed on a per platform basis in accordance with the follo
 }
 ```
 
-### Usage
+#### Login Response
 
-This plugin allows users to log in with their Amazon accounts. It has a single sign on feel and uses the official platform packages created by Amazon. Like the Amazon platform packages it will only ask to authorize an account if logged in or login if not already logged in.
+The response from using the login method is a map of the AuthorizeResult. It is dependent on the scope.
+
+```
+{
+    'accessToken': 'access token result',
+    'user': {
+        'userEmail': 'user email result',
+        'userId': 'user id result',
+        'userName': 'user name result',
+        'userPostalCode': 'user postal code result',
+        'user info': 'user info as a Map<String,String> result',
+    },
+}
+```
