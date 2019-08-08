@@ -4,6 +4,7 @@ import 'package:login_with_amazon/login_with_amazon.dart';
 
 void main() => runApp(MyApp());
 
+/// @nodoc
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -24,15 +25,16 @@ const _scopes = {
   },
 };
 
+/// @nodoc
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
   }
 
-  List<Widget> authRespose = [];
-  String accessToken = '';
-  String logResult = '';
+  List<Widget> _authRespose = [];
+  String _accessToken = '';
+  String _logResult = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +51,16 @@ class _MyAppState extends State<MyApp> {
                   try {
                     final result = await LoginWithAmazon.login(_scopes);
                     setState(() {
-                      logResult = result.containsKey("accessToken")
+                      _logResult = result.containsKey("accessToken")
                           ? "Logged In"
                           : "Cancelled";
-                      authRespose = result.entries.map((entry) {
+                      _authRespose = result.entries.map((entry) {
                         return Text("${entry.key}: ${entry.value}");
                       }).toList();
                     });
                   } catch (e) {
                     setState(() {
-                      logResult = "Cancelled";
+                      _logResult = "Cancelled";
                     });
                   }
                 },
@@ -68,7 +70,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   final result = await LoginWithAmazon.getAccessToken(_scopes);
                   setState(() {
-                    accessToken = result;
+                    _accessToken = result;
                   });
                 },
                 child: Text("Get Access Token"),
@@ -77,14 +79,14 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   await LoginWithAmazon.logout();
                   setState(() {
-                    logResult = 'Logged Out';
+                    _logResult = 'Logged Out';
                   });
                 },
                 child: Text("Logout"),
               ),
-              Text('LogResult: $logResult'),
-              Text('AccessToken: $accessToken'),
-              ...authRespose
+              Text('LogResult: $_logResult'),
+              Text('AccessToken: $_accessToken'),
+              ..._authRespose
             ],
           ),
         ),

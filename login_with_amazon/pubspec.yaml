@@ -1,7 +1,7 @@
 name: login_with_amazon
-description: A flutter plugin built to use Amazon's official Login With Amazon platform packages
-version: 0.0.1
-author: Eitan Stadtlander-Miller <eitansm@weplenish.com>
+description: A flutter plugin built to use Amazon's official Login With Amazon platform packages.
+version: 0.1.0
+author: WePlenish Team <software@weplenish.com>
 homepage: https://github.com/weplenish/flutter-plugins/tree/master/login_with_amazon
 
 environment:

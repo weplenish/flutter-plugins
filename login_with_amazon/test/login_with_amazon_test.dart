@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:login_with_amazon/login_with_amazon.dart';
 
+/// @nodoc
 void main() {
   const MethodChannel channel = MethodChannel('login_with_amazon');
 

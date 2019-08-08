@@ -1,3 +1,7 @@
+## 0.1.0
+
+- Added dartdoc comments
+
 ## 0.0.1
 
 - Android Only for the time being
