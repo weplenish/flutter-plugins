@@ -4,9 +4,11 @@ A flutter plugin to use Amazon's native platform implementations of [Login With 
 
 ## Getting Started
 
-The api key must be changed on a per platform basis in accordance with the following instructions.
+The API key must be changed on a per platform basis in accordance with the following instructions.
 
 - [Android](https://developer.amazon.com/docs/login-with-amazon/create-android-project.html#add-api-key)
+  - in brief, after generating the API key on amazon, you must add it to your android project in the file app/src/main/assets/api_key.txt
+  - you will likely need multiple keys, one for your debug application, and one for the live one as noted by amazon in the above documentation
 - [iOS](https://developer.amazon.com/docs/login-with-amazon/register-ios.html#ios-bundle-id-and-api-keys)
 
 ### Methods
@@ -29,11 +31,11 @@ The api key must be changed on a per platform basis in accordance with the follo
 }
 ```
 
-#### If a scope has no scopeData like the profile scope it should map to null.
+###### If a scope has no scopeData like the profile scope it should map to null.
 
 `{'profile': null}`
 
-#### Multiple scopes can be also be passed in all at once.
+###### Multiple scopes can be also be passed in all at once.
 
 ```
 {
@@ -68,3 +70,12 @@ The response from using the login method is a map of the AuthorizeResult. It is 
     },
 }
 ```
+
+## Functionality
+
+- [x] Login With Amazon on Android
+- [x] Single Sign On on Android
+- [x] Sign on with varying scopes
+- [x] Retrieve full amazon response
+- [x] Simple setup with drop-in replacement of API key
+- [ ] Login With Amazon on iOS

@@ -7,7 +7,16 @@ void main() {
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
+      switch (methodCall.method) {
+        case 'login':
+          return {'accessToken': 'amazonianLoginToken'};
+        case 'logout':
+          return true;
+        case 'getAccessToken':
+          return 'amazonianAccessToken';
+        default:
+          return false;
+      }
     });
   });
 
@@ -15,7 +24,16 @@ void main() {
     channel.setMockMethodCallHandler(null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await LoginWithAmazon.platformVersion, '42');
+  test('getAccessToken', () async {
+    expect(await LoginWithAmazon.getAccessToken({}), 'amazonianAccessToken');
+  });
+
+  test('logout', () async {
+    expect(await LoginWithAmazon.logout(), true);
+  });
+
+  test('login', () async {
+    expect(await LoginWithAmazon.login({}),
+        {'accessToken': 'amazonianLoginToken'});
   });
 }
