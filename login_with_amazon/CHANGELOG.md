@@ -1,3 +1,8 @@
+## 0.3.0+1
+
+- modified the example app to make for easy early testing with dash replenishment or alexa devices
+- added text inputs to change dash device model or alexa product id
+
 ## 0.3.0
 
 - getAuthCode works correctly by accepting code challenge and method since it is device dependent
