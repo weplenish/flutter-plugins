@@ -11,6 +11,9 @@ The API key must be changed on a per platform basis in accordance with the follo
   - you will likely need multiple keys, one for your debug application, and one for the live one as noted by amazon in the above documentation
 - [iOS](https://developer.amazon.com/docs/login-with-amazon/register-ios.html#ios-bundle-id-and-api-keys)
 
+- Alexa or Dash Device authorization code generation
+  - [Get Authorization Code](https://developer.amazon.com/docs/dash/lwa-mobile-sdk.html#prerequisites)
+
 ### Methods
 
 `import 'package:login_with_amazon/login_with_amazon.dart';`
@@ -19,7 +22,7 @@ The API key must be changed on a per platform basis in accordance with the follo
   - `Future<Map> login(Map<String, dynamic> scopes)`
   - `Future<void> logout()`
   - `Future<String> getAccessToken(Map<String, dynamic> scopes)`
-  - `Future<Map> getAuthCode(String codeVerifier, Map<String, dynamic> scopes)`
+  - `Future<Map> getAuthCode(String codeChallenge, String codeChallengeMethod, Map<String, dynamic> scopes)`
 
 #### Scopes should match amazon scopes.
 

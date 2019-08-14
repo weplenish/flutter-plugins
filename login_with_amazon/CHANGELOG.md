@@ -1,3 +1,7 @@
+## 0.3.0
+
+- getAuthCode works correctly by accepting code challenge and method since it is device dependent
+
 ## 0.2.0
 
 - Added method to getAuthCode for dash replenishment devices

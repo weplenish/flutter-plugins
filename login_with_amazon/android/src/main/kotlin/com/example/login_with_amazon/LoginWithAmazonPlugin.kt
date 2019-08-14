@@ -68,12 +68,6 @@ private fun jsonFromMap(map: Map<String,Any>): JSONObject = JSONObject().apply {
 }
 
 /**
- * https://developer.amazon.com/docs/dash/lwa-mobile-sdk.html
- */
-private fun generateCodeChallenge(codeVerifier: String): ByteArray =
-        encode(MessageDigest.getInstance("SHA-256").digest(codeVerifier.toByteArray(Charset.defaultCharset())), URL_SAFE)
-
-/**
  * converts a map from dart to an amazon scope
  * **/
 private fun createScopes(arguments: Map<String, Any>): Array<Scope> =
@@ -110,7 +104,7 @@ class LoginWithAmazonPlugin(private val context: Context) : MethodCallHandler {
                         .Builder(createRequestContext(result))
                         .addScopes(*createScopes(call.argument("scopes") ?: mapOf()))
                         .forGrantType(AuthorizeRequest.GrantType.AUTHORIZATION_CODE)
-                        .withProofKeyParameters(call.argument("codeVerifier"), "S256")
+                        .withProofKeyParameters(call.argument("codeChallenge"), call.argument("codeChallengeMethod"))
                         .build())
             }
             "getAccessToken" -> {

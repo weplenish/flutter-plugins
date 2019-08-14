@@ -38,6 +38,12 @@ class LoginWithAmazon {
   /// To retrieve an authcode for an amazon dash device through LWA your dash device requires
   /// code verifier generation. This code verifier should be unique to the device.
   ///
+  /// [codeChallenge] should be generated on the device this is either the
+  /// code verifier, or a base64url encoding of the code verifier after it is SHA256 encoded
+  ///
+  /// [codeChallengeMethod] must be either plain or S256
+  /// depending on how you generate the code challenge on the device
+  ///
   /// [scopes] should look like
   /// {
   ///   'profile': null,
@@ -48,16 +54,20 @@ class LoginWithAmazon {
   ///   },
   /// }
   ///
-  /// [codeVerifier] should be a string between 43 and 128 characters long and
-  /// contain url and filename safe characters only
-  /// ([A-Z], [a-z], [0-9], "-", "_ ", ".", "~")
+  /// returns
+  /// {
+  ///     'authorizationCode': 'authorization code to send to device result',
+  ///     'clientId': 'amazon client Id for device',
+  ///     'redirectUri': 'amazon redirect Uri for device'
+  /// }
   ///
   /// For more information:
   /// https://developer.amazon.com/docs/dash/lwa-mobile-sdk.html#prerequisites
-  static Future<Map> getAuthCode(
-          String codeVerifier, Map<String, dynamic> scopes) =>
+  static Future<Map> getAuthCode(String codeChallenge,
+          String codeChallengeMethod, Map<String, dynamic> scopes) =>
       _channel.invokeMethod('getAuthCode', {
-        'codeVerifier': codeVerifier,
+        'codeChallenge': codeChallenge,
+        'codeChallengeMethod': codeChallengeMethod,
         'scopes': scopes,
       });
 

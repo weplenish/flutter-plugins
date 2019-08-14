@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () async {
                   final result = await LoginWithAmazon.getAuthCode(
                     "code_generated_by_the_dash_device_for_LWA_verification",
+                    "plain",
                     {
                       'profile': null,
                       'dash:replenish': {
