@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Added method to getAuthCode for dash replenishment devices
+
 ## 0.1.0
 
 - Added dartdoc comments

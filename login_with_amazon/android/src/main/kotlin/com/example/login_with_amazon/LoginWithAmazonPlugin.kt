@@ -3,6 +3,8 @@ package com.example.login_with_amazon
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Base64.URL_SAFE
+import android.util.Base64.encode
 import com.amazon.identity.auth.device.AuthError
 import com.amazon.identity.auth.device.api.Listener
 import com.amazon.identity.auth.device.api.authorization.*
@@ -13,6 +15,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import org.json.JSONObject
+import java.nio.charset.Charset
+import java.security.MessageDigest
 
 /**
  * all responses must be on the main thread because of dart
@@ -33,9 +37,9 @@ private fun resultAuthorized(result: Result, authorizedResult: AuthorizeResult?)
     resultSuccess(result, authorizedResult?.let {
         mapOf(
             // these are null from amazon for some reason
-            //"authorizationCode" to it.authorizationCode,
-            //"clientId" to it.clientId,
-            //"redirectUri" to it.redirectURI,
+            "authorizationCode" to it.authorizationCode,
+            "clientId" to it.clientId,
+            "redirectUri" to it.redirectURI,
             "accessToken" to it.accessToken,
             "user" to it.user?.let { user ->
                 mapOf(
@@ -62,6 +66,12 @@ private fun jsonFromMap(map: Map<String,Any>): JSONObject = JSONObject().apply {
         }
     }
 }
+
+/**
+ * https://developer.amazon.com/docs/dash/lwa-mobile-sdk.html
+ */
+private fun generateCodeChallenge(codeVerifier: String): ByteArray =
+        encode(MessageDigest.getInstance("SHA-256").digest(codeVerifier.toByteArray(Charset.defaultCharset())), URL_SAFE)
 
 /**
  * converts a map from dart to an amazon scope
@@ -94,6 +104,14 @@ class LoginWithAmazonPlugin(private val context: Context) : MethodCallHandler {
                     .Builder(createRequestContext(result))
                     .addScopes(*createScopes(call.arguments()))
                     .build())
+            }
+            "getAuthCode" -> {
+                AuthorizationManager.authorize(AuthorizeRequest
+                        .Builder(createRequestContext(result))
+                        .addScopes(*createScopes(call.argument("scopes") ?: mapOf()))
+                        .forGrantType(AuthorizeRequest.GrantType.AUTHORIZATION_CODE)
+                        .withProofKeyParameters(call.argument("codeVerifier"), "S256")
+                        .build())
             }
             "getAccessToken" -> {
                 AuthorizationManager.getToken(context, createScopes(call.arguments()), object : Listener<AuthorizeResult, AuthError>{

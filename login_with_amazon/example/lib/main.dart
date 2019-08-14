@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
 
   List<Widget> _authRespose = [];
   String _accessToken = '';
+  String _authCode = '';
   String _logResult = '';
 
   @override
@@ -68,6 +69,30 @@ class _MyAppState extends State<MyApp> {
               ),
               RaisedButton(
                 onPressed: () async {
+                  final result = await LoginWithAmazon.getAuthCode(
+                    "code_generated_by_the_dash_device_for_LWA_verification",
+                    {
+                      'profile': null,
+                      'dash:replenish': {
+                        'device_model': 'SomeDeviceModel',
+                        'serial': 'serialNumberHere',
+                        'is_test_device': true
+                      },
+                    },
+                  );
+                  setState(() {
+                    _authCode = result.containsKey("authorizationCode")
+                        ? result["authorizationCode"]
+                        : "None";
+                    _authRespose = result.entries.map((entry) {
+                      return Text("${entry.key}: ${entry.value}");
+                    }).toList();
+                  });
+                },
+                child: Text("Get Auth Code"),
+              ),
+              RaisedButton(
+                onPressed: () async {
                   final result = await LoginWithAmazon.getAccessToken(_scopes);
                   setState(() {
                     _accessToken = result;
@@ -86,6 +111,7 @@ class _MyAppState extends State<MyApp> {
               ),
               Text('LogResult: $_logResult'),
               Text('AccessToken: $_accessToken'),
+              Text('AuthCode: $_authCode'),
               ..._authRespose
             ],
           ),

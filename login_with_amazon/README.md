@@ -13,15 +13,19 @@ The API key must be changed on a per platform basis in accordance with the follo
 
 ### Methods
 
+`import 'package:login_with_amazon/login_with_amazon.dart';`
+
 - `LoginWithAmazon`
   - `Future<Map> login(Map<String, dynamic> scopes)`
   - `Future<void> logout()`
   - `Future<String> getAccessToken(Map<String, dynamic> scopes)`
+  - `Future<Map> getAuthCode(String codeVerifier, Map<String, dynamic> scopes)`
 
 #### Scopes should match amazon scopes.
 
 ```
 {
+  'profile': null,
   'alexa:all': {
     'productID': 'SomeProductId',
     'productInstanceAttributes': {
@@ -35,7 +39,7 @@ The API key must be changed on a per platform basis in accordance with the follo
 
 `{'profile': null}`
 
-###### Multiple scopes can be also be passed in all at once.
+###### Multiple scopes can be also be passed in all at once. _Do Not Do This_ amazon doesn't always work as expected
 
 ```
 {
@@ -71,11 +75,28 @@ The response from using the login method is a map of the AuthorizeResult. It is 
 }
 ```
 
+#### Authorization Code Response
+
+The response from using the login method is a map of the AuthorizeResult. It is dependent on the scope.
+
+```
+{
+    'authorizationCode': 'access token result',
+    'clientId': 'amazon client Id',
+    'redirectUri': 'amazon redirect Uri'
+}
+```
+
 ## Functionality
 
+- [x] Sign on with varying scopes
 - [x] Login With Amazon on Android
 - [x] Single Sign On on Android
-- [x] Sign on with varying scopes
+- [x] Get current Access Token on Android
 - [x] Retrieve full amazon response
 - [x] Simple setup with drop-in replacement of API key
+- [x] Get LWA Authorization Code for Dash replenishment device
 - [ ] Login With Amazon on iOS
+- [ ] Get LWA Authorization Code for Dash replenishment device on iOS
+- [ ] Logout on iOS
+- [ ] Get current Access Token on iOS
