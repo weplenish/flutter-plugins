@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:oauth2/oauth2.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// a manager for handling oauth 2 methods
 @immutable
 class OAuthManager {
   final Uri authorizationEndpoint;
@@ -13,23 +14,26 @@ class OAuthManager {
   final String redirectUrl;
   final String secret;
   final String scope;
-  final void Function(String) onCredentialsChange;
+  final void Function(String) onCredentialsChanged;
 
+  /// create an oauthmanager
+  /// [onCredentialsChanged] a function that is called whenever the credentials are changed
+  /// it should be used to save the string passed to it.
   const OAuthManager(
     this.authorizationEndpoint,
     this.tokenEndpoint,
     this.identifier,
     this.redirectUrl, {
     this.secret,
-    this.onCredentialsChange,
+    this.onCredentialsChanged,
     this.scope = '',
   });
 
   void Function(Credentials) get _onCredentialsRefreshed =>
-      onCredentialsChange == null
+      onCredentialsChanged == null
           ? null
           : (Credentials creds) {
-              onCredentialsChange(creds.toJson());
+              onCredentialsChanged(creds.toJson());
             };
 
   Uri _addParametersAndScope(
@@ -44,6 +48,7 @@ class OAuthManager {
         },
       );
 
+  /// performs a resource owner login with oauth2
   Future<Client> resourceOwnerLogin(
     String username,
     String password, {
@@ -60,26 +65,25 @@ class OAuthManager {
         secret: secret,
       );
 
+  /// reauthenticate saved credentials, throws error if it fails
+  /// [savedCredentials] the string that is returned by onCredentialsChanged
+  Future<Client> reauthenticate(String savedCredentials) async {
+    final client = Client(
+      Credentials.fromJson(savedCredentials),
+      identifier: identifier,
+      secret: secret,
+      onCredentialsRefreshed: _onCredentialsRefreshed,
+    );
+    return await client.refreshCredentials();
+  }
+
+  /// creates a webview dialog to login via oauth2
   Future<Client> login({
-    String savedCredentials,
     @required BuildContext context,
     Map<String, String> urlParameters,
     double popupHeight = 600,
     double popupWidth,
   }) async {
-    if (savedCredentials != null) {
-      try {
-        final client = Client(
-          Credentials.fromJson(savedCredentials),
-          identifier: identifier,
-          secret: secret,
-          onCredentialsRefreshed: _onCredentialsRefreshed,
-        );
-        return await client.refreshCredentials();
-        //if we can't login with the saved credentials we want to reauthenticate
-      } on StateError {} on AuthorizationException {} on FormatException {}
-    }
-
     final grant = new AuthorizationCodeGrant(
       identifier,
       _addParametersAndScope(

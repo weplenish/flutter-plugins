@@ -1,8 +1,8 @@
 name: oauth2_flutter
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: Low dependency oauth2 flutter package. This package uses the official dart oauth2 pub and the official webview_flutter package.
+version: 0.1.0
+author: WePlenish Team <software@weplenish.com>
+homepage: https://github.com/weplenish/flutter-plugins/tree/master/oauth2_flutter
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
