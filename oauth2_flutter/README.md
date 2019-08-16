@@ -1,14 +1,9 @@
-# oauth2
+# oauth2_flutter
 
-A new Flutter package project.
+Low dependency oauth2 flutter package. This package uses the official dart oauth2 pub and the official flutter webview package.
 
 ## Getting Started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+A constant oauthmanager can be created when the application starts. If the onCredentialsChanged parameter is set it will be called with a string that should be saved whenever it is called. When the application loads it should load the string from wherever it is saved and pass it to the reauthenticate method.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Reauthenticate and login both return an authenticated client that automatically handles updating the access token and refresh tokens. Any calls that need to be authenticated should be made using the returned client. Whenever the tokens are refreshed the onCredentialsChanged method will be called with the new tokens.
