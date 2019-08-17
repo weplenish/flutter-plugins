@@ -9,7 +9,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Iterable<WifiNetwork> _platformVersion = [];
+  List<Widget> _platformVersion = [];
 
   @override
   void initState() {
@@ -24,13 +24,19 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: ListView.builder(
+            itemBuilder: (context, i) => _platformVersion[i],
+            itemCount: _platformVersion.length,
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final networks = await WifiFlutter.wifiNetworks;
             setState(() {
-              _platformVersion = networks;
+              _platformVersion = networks
+                  .map((network) => Text(
+                      "Ssid ${network.ssid} - Strength ${network.rssi} - Secure ${network.isSecure}"))
+                  .toList();
             });
           },
         ),

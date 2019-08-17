@@ -1,6 +1,6 @@
 class WifiNetwork {
   final String ssid;
-  final String rssi;
+  final int rssi;
   final bool isSecure;
 
   const WifiNetwork(this.ssid, this.rssi, this.isSecure);
