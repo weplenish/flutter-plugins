@@ -1,8 +1,8 @@
 name: wifi_flutter
-description: A new flutter plugin project.
-version: 0.0.1
-author:
-homepage:
+description: A plugin to retrieve the nearby wifi networks
+version: 0.1.0
+author: WePlenish Team <software@weplenish.com>
+homepage: https://github.com/weplenish/flutter-plugins/tree/master/wifi_flutter
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

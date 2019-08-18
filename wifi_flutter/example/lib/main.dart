@@ -31,6 +31,10 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
+            final noPermissions = await WifiFlutter.promptPermissions();
+            if (noPermissions) {
+              return;
+            }
             final networks = await WifiFlutter.wifiNetworks;
             setState(() {
               _platformVersion = networks
