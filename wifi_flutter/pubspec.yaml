@@ -1,6 +1,6 @@
 name: wifi_flutter
-description: A plugin to retrieve the nearby wifi networks
-version: 0.1.0
+description: A plugin to retrieve the nearby wifi networks for android phones only. Simple and low dependencies.
+version: 0.1.0+1
 author: WePlenish Team <software@weplenish.com>
 homepage: https://github.com/weplenish/flutter-plugins/tree/master/wifi_flutter
 

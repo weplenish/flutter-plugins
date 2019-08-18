@@ -5,7 +5,7 @@ A simple plugin that allows network scanning on android.
 ## Getting Started
 
 In your pubspec add the dependency
-`wifi_flutter: ^0.1.0`
+`wifi_flutter: ^0.1.0+1`
 
 Due to iOS limitations, it is impossible to retrieve a list of nearby wifi networks. Unfortunately the same will hold true for android R+. However, for the time being, this simple plugin will return a list of wifi networks on android.
 
