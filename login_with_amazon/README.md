@@ -99,7 +99,7 @@ The response from using the login method is a map of the AuthorizeResult. It is 
 - [x] Retrieve full amazon response
 - [x] Simple setup with drop-in replacement of API key
 - [x] Get LWA Authorization Code for Dash replenishment device
-- [ ] Login With Amazon on iOS
-- [ ] Get LWA Authorization Code for Dash replenishment device on iOS
-- [ ] Logout on iOS
-- [ ] Get current Access Token on iOS
+- [x] Login With Amazon on iOS
+- [x] Get LWA Authorization Code for Dash replenishment device on iOS
+- [x] Logout on iOS
+- [x] Get current Access Token on iOS
