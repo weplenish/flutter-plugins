@@ -1,3 +1,7 @@
+## 0.4.0
+
+- added support for LWA on iOS
+
 ## 0.3.0+1
 
 - modified the example app to make for easy early testing with dash replenishment or alexa devices
