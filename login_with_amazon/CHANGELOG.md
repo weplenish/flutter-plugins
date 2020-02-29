@@ -1,3 +1,8 @@
+## 0.4.1
+
+- cleanup
+- code consolidation
+
 ## 0.4.0
 
 - added support for LWA on iOS
