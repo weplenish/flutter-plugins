@@ -1,3 +1,7 @@
+## 0.4.2
+
+- added iOS code to plugin pod
+
 ## 0.4.1
 
 - cleanup

@@ -1,0 +1,1 @@
+#import <LoginWithAmazon/LoginWithAmazon.h>

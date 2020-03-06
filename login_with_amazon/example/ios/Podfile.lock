@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - login_with_amazon (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - login_with_amazon (from `.symlinks/plugins/login_with_amazon/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  login_with_amazon:
+    :path: ".symlinks/plugins/login_with_amazon/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  login_with_amazon: 0dc7b0eeadcbcdfa14f6bed292522fe876a7e991
+
+PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
+
+COCOAPODS: 1.8.4

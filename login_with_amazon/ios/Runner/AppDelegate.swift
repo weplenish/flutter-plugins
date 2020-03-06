@@ -30,13 +30,18 @@ func getScopes(args: [String: Any]) -> Dictionary<String, Any> {
 }
 
 func ReqHandler(result: @escaping FlutterResult) -> AMZNAuthorizationRequestHandler {
-    return {(res, canceled, error) in
-        if(canceled){
-            result(FlutterError(code: "User Canceled", message: "User Cancelled Request", details: nil))
-        }else if((error) != nil){
-            result(FlutterError(code: "Authorization Error", message: "An Error Occured", details: error))
-        }else{
-            result(res)
+    return {(res, cancelled, error) in
+        print(res  ?? "No Res")
+        print(cancelled)
+        print(error ?? "No Error")
+        DispatchQueue.main.async {
+            if(cancelled){
+                result(FlutterError(code: "User Canceled", message: "User Cancelled Request", details: nil))
+            }else if((error) != nil){
+                result(FlutterError(code: "Authorization Error", message: "An Error Occured", details: error))
+            }else{
+                result(res)
+            }
         }
     }
 }
@@ -67,7 +72,7 @@ func AMZNReqFromFlutterArgs(arguments: Any?) -> AMZNAuthorizeRequest {
     
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
             let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
-            let lwaChannel = FlutterMethodChannel(name: "login_with_amazon", binaryMessenger: controller.binaryMessenger)
+        let lwaChannel = FlutterMethodChannel(name: "login_with_amazon", binaryMessenger: controller.binaryMessenger)
             
             lwaChannel.setMethodCallHandler({
                 [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in

@@ -117,26 +117,32 @@ class _MyAppState extends State<MyApp> {
               ),
               RaisedButton(
                 onPressed: () async {
-                  final result = await LoginWithAmazon.getAuthCode(
-                    _codeChallenge.text,
-                    "plain",
-                    {
-                      'profile': null,
-                      'dash:replenish': {
-                        'device_model': _dashModel.text,
-                        'serial': _serialNumber.text,
-                        'is_test_device': true
+                  try{
+                    final result = await LoginWithAmazon.getAuthCode(
+                      _codeChallenge.text,
+                      "plain",
+                      {
+                        'profile': null,
+                        'dash:replenish': {
+                          'device_model': _dashModel.text,
+                          'serial': _serialNumber.text,
+                          'is_test_device': true
+                        },
                       },
-                    },
-                  );
-                  _result = result.entries
-                      .map((entry) => "${entry.key}: ${entry.value}")
-                      .reduce((str, str2) => "$str, \n $str2");
-                  setState(() {
-                    _authRespose = result.entries.map((entry) {
-                      return Text("${entry.key}: ${entry.value}");
-                    }).toList();
-                  });
+                    );
+                    _result = result.entries
+                        .map((entry) => "${entry.key}: ${entry.value}")
+                        .reduce((str, str2) => "$str, \n $str2");
+                    setState(() {
+                      _authRespose = result.entries.map((entry) {
+                        return Text("${entry.key}: ${entry.value}");
+                      }).toList();
+                    });
+                  }catch (e){
+                    setState(() {
+                      _authRespose = [Text("failed")];
+                    });
+                  }
                 },
                 child: Text("Get Dash Auth Code"),
               ),
