@@ -1,29 +1,23 @@
 import Flutter
 import UIKit
 
-func dictToHashable(dict: [Any : Any]) throws -> [AnyHashable : Any]{
-  let hashableDict: [AnyHashable : Any] = [:]
+func dictToHashable(dict: [String : Any]) throws -> [String : Any]{
+  var hashableDict: [String : Any] = [:]
   for (key, value) in dict {
-    if let hashedKey = key as? AnyHashable {
-      if let dictVal = value as? [Any : Any]{
-        hashableDict[hashedKey] = try dictToHashable(dict: dictVal)
+      if let dictVal = value as? [String : Any]{
+        hashableDict[key] = try dictToHashable(dict: dictVal)
       }else{
-        hashableDict[hashedKey] = value
+        hashableDict[key] = value
       }
-    }else{
-      throw ArgsError.ScopeFailure
-    }
   }
   return hashableDict
 }
 
 func mapToScope(key:String, value: Any) throws -> AMZNScope{
-    if let data = value as? [Any : Any] {
+    if let data = value as? [String : Any] {
         return AMZNScopeFactory.scope(withName: key, data: try dictToHashable(dict: data))
-    }else if let name = value as? String {
-        return AMZNScopeFactory.scope(withName: name)
-    } else {
-        throw ArgsError.ScopeFailure
+    }else{
+        return AMZNScopeFactory.scope(withName: key)
     }
 }
 
@@ -52,18 +46,15 @@ func ReqHandler(result: @escaping FlutterResult) -> AMZNAuthorizationRequestHand
 
 enum ArgsError: Error {
     case MissingArgs
-    case ScopeFailure
+    case BadScope
+    case ScopeFailure(key: String, value: Any)
 }
 
 func AMZNReqFromFlutterArgs(arguments: Any?) throws -> AMZNAuthorizeRequest {
     if let args = arguments as? [String: Any],
     let scopes = args["scopes"] as? [String: Any] {
       let req = AMZNAuthorizeRequest.init()
-      do{
         req.scopes = try createScope(dict: scopes)
-      }catch {
-        throw ArgsError.ScopeFailure
-      }
       
       if(args["codeChallenge"] != nil){
         req.codeChallenge = args["codeChallenge"] as! String
@@ -123,8 +114,8 @@ public class SwiftLoginWithAmazonPlugin: NSObject, FlutterPlugin {
         }
     } catch ArgsError.MissingArgs {
       result(FlutterError(code: "Missing Arguments", message: "Scopes required", details: nil))
-    } catch ArgsError.ScopeFailure {
-      result(FlutterError(code: "Bad Scopes", message: "Scopes are malformed", details: nil))
+    } catch ArgsError.ScopeFailure(let key, let value) {
+      result(FlutterError(code: "Bad Scopes", message: key, details: value))
     } catch {
       result(FlutterError(code: "Something went wrong", message: ":(", details: nil))
     }
