@@ -11,6 +11,9 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -19,14 +22,30 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 
 private val wifiSecurities = setOf("WEP", "WPA", "WPA2", "WPA_EAP", "IEEE8021X")
 
-class WifiFlutterPlugin(private val activity: Activity): MethodCallHandler {
-  companion object {
-    @JvmStatic
-    fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "wifi_flutter")
-      channel.setMethodCallHandler(WifiFlutterPlugin(registrar.activity()))
-    }
+class WifiFlutterPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
+
+  private lateinit var channel : MethodChannel
+  private lateinit var activity:Activity
+  private lateinit var context: Context
+
+  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "wifi_flutter")
+    channel.setMethodCallHandler(this);
+    context = flutterPluginBinding.applicationContext
   }
+
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    channel.setMethodCallHandler(null)
+  }
+
+  override fun onDetachedFromActivity() {}
+  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+    onAttachedToActivity(binding)
+  }
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    this.activity = binding.activity
+  }
+  override fun onDetachedFromActivityForConfigChanges() {}
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     when(call.method){
