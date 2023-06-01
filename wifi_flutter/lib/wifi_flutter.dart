@@ -16,14 +16,16 @@ class WifiFlutter {
 
   /// returns the results of the most recent wifi scan
   /// it is unecessary to run a scan
-  static Future<Iterable<WifiNetwork>?> get wifiNetworks async {
+  static Future<Iterable<WifiNetwork>> get wifiNetworks async {
     final networks = await _channel.invokeMethod<List<dynamic>>('getNetworks');
-    return networks?.map<WifiNetwork>((network) => WifiNetwork.fromMap(network));
+    return (networks ?? new List.empty())
+        .map<WifiNetwork>((network) => WifiNetwork.fromMap(network));
   }
 
   /// triggers a network scan
-  static Future<Iterable<WifiNetwork>?> scanNetworks() async {
+  static Future<Iterable<WifiNetwork>> scanNetworks() async {
     final networks = await _channel.invokeMethod<List<dynamic>>('scanNetworks');
-    return networks?.map<WifiNetwork>((network) => WifiNetwork.fromMap(network));
+    return (networks ?? new List.empty())
+        .map<WifiNetwork>((network) => WifiNetwork.fromMap(network));
   }
 }
