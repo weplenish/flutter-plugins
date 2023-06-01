@@ -1,3 +1,8 @@
+## 0.2.0+1
+
+* opt in to null safety
+* android sdk 31
+
 ## 0.1.0+1
 
 * Improved pubspec description
