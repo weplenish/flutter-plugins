@@ -1,4 +1,4 @@
-## 0.2.0+1
+## 0.2.0
 
 * opt in to null safety
 * android sdk 31
